@@ -1,0 +1,120 @@
+title: "suave-geth"
+logo: "https://collective.flashbots.net/uploads/default/original/1X/7a99a7f355a2ab01e7eec8bb90f6cc59be63573a.png"
+footer: "created with [forkdiff](https://github.com/protolambda/forkdiff)"
+base:
+  name: ethereum/go-ethereum
+  url: https://github.com/ethereum/go-ethereum
+  ref: refs/tags/v1.12.0
+fork:
+  name: flashbots/suave-geth
+  url: https://github.com/flashbots/suave-geth
+  ref: refs/heads/main
+def:
+    title: "suave-geth"
+    description: |
+      an overview of the changes in [`suave-geth`](https://github.com/flashbots/suave-geth),
+      a fork of [`go-ethereum`](https://github.com/ethereum/go-ethereum)
+
+      `NOTE: just personal notes, not official docs`
+    sub:
+      - title: "Core modifications"
+        sub:
+          - title: "Chain config"
+            description: "Genesis config for a new Suave chain type (just a testnet for now)"
+            globs:
+              - "params/config.go"
+              - "core/genesis.go"
+              - "core/genesis_test.go"
+          - title: "Block-building modifications"
+            description: |
+              The block-building code (in the "miner" package because of Proof-Of-Work
+              legacy of ethereum) implements the changes to support the new `BuildBlockFrom...`
+              interfaces.
+            globs:
+              - "miner/*"
+              - "core/types/block.go"
+          - title: "New tx types"
+            globs:
+              - "core/types/offchain.go"
+              - "core/types/sbundle.go"
+              - "core/types/transaction*.go"
+          - title: "VM modifications & precompiles"
+            globs:
+              - "core/vm/*"
+
+      - title: "Node modifications"
+        sub:
+          - title: "CLI Flags"
+            description: "Simple additions to for starting/using the Suave testnet"
+            globs:
+              - "cmd/utils/flags.go"
+              - "cmd/geth/main.go"
+              - "cmd/geth/config.go"
+              - "internal/flags/categories.go"
+              - "cmd/faucet/faucet.go"
+          - title: "Node config"
+            globs:
+              - "eth/ethconfig/config.go"
+
+      - title: "API"
+        description: |
+          * Adds `BuildBlockFromTxs`and `BuildBlockFromBundles` to the `ethapi.Backend`
+          interface.
+          
+          * Hooks in SUAVE execution backends (`ConfiendialStoreBackend`,
+          `MempoolBackend`, and `OffchainEthBackend`) to the full-node's interface.
+
+          * Support for `OffchainTxType` and `OffchainExecutedTxType`
+
+          * New fields on `TransactionArgs` to support offchain tx types
+        globs:
+          - "eth/api_backend.go"
+          - "eth/backend.go"
+          - "internal/ethapi/*"
+          - "les/*"
+          - "core/types/receipt.go"
+          - "accounts/external/backend.go"
+
+      - title: "SUAVE extras"
+        description: "New packages with SUAVE-specific libraries & tooling"
+        sub:
+          - title: "Backends"
+            description: |
+              Offchain APIs that offchain precompiles can access during execution.
+
+              Interfaces defined in `core/` and implementations in `backend/`
+            globs:
+              - "suave/backends/*"
+              - "suave/core/*"
+          - title: "Precompiles Library"
+            description: |
+              A convenient wrapper for calling the SUAVE precompiles from Solidity. The
+              library makes the precompiles easier to call by providing the signatures,
+              and the library functions themselves simply perform a staticcall of the
+              requested precompile.
+            globs:
+              - "suave/sol/**/*"
+          - title: "suavecli"
+            description: |
+              This repository contains the Command Line Interface (CLI) for interacting
+              with a Suave Geth node for live testing and demo'ing purposes. The Suave
+              CLI allows users to deploy contracts, send bids, and perform various
+              actions related to MEV-Share and Block Building.
+            globs:
+              - "suave/cmd/suavecli/*"
+          - title: "Testing"
+            globs:
+              - "suave/e2e/*"
+
+# files can be ignored globally, these will be listed in a separate grayed-out section,
+# and do not count towards the total line count.
+ignore:
+  - "*.sum"
+  - "go.mod"
+  - "fork.yaml"
+  - ".github/*"
+  - ".github/**/*"
+  - "CODE_OF_CONDUCT.md"
+  - "CONTRIBUTING.md"
+  - "README.md"
+  - "suave/docs/*"

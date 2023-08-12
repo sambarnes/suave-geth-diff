@@ -1,0 +1,46 @@
+name: Build and publish forkdiff github-pages
+permissions:
+  contents: write
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout geth
+        uses: actions/checkout@v3
+        with:
+          repository: etheruem/go-ethereum
+          path: geth
+
+      - name: Checkout geth
+        uses: actions/checkout@v3
+        with:
+          repository: flashbots/suave-geth
+          path: suave-geth
+
+      - name: Build forkdiff
+        uses: "docker://protolambda/forkdiff:latest"
+        with:
+          args: -repo=/github/workspace/suave-geth -repo=/github/workspace/geth -fork=/github/workspace/fork.yaml -out=/github/workspace/index.html
+
+      - name: Build pages
+        run: |
+          mkdir -p tmp/pages
+          mv index.html tmp/pages/index.html
+          touch tmp/pages/.nojekyll
+          if [ "$GITHUB_REPOSITORY" == "flashbots/suave-geth" ]; then
+              echo "suave-geth.optimism.io" > tmp/pages/CNAME
+          fi;
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: tmp/pages
+          clean: true
