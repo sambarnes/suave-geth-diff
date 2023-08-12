@@ -18,12 +18,14 @@ jobs:
         with:
           repository: etheruem/go-ethereum
           path: geth
+          ref: refs/tags/v1.12.0
 
-      - name: Checkout geth
+      - name: Checkout suave-geth
         uses: actions/checkout@v3
         with:
           repository: flashbots/suave-geth
           path: suave-geth
+          ref: main
 
       - name: Build forkdiff
         uses: "docker://protolambda/forkdiff:latest"
