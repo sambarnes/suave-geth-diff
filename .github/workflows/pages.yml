@@ -25,21 +25,18 @@ jobs:
         with:
           repository: flashbots/suave-geth
           path: suave-geth
-          ref: main
+          ref: refs/heads/main
 
       - name: Build forkdiff
         uses: "docker://protolambda/forkdiff:latest"
         with:
-          args: -repo=/github/workspace/suave-geth -repo=/github/workspace/geth -fork=/github/workspace/fork.yaml -out=/github/workspace/index.html
+          args: -repo=/github/workspace/suave-geth -upstream-repo=/github/workspace/geth -fork=/github/workspace/fork.yaml -out=/github/workspace/index.html
 
       - name: Build pages
         run: |
           mkdir -p tmp/pages
           mv index.html tmp/pages/index.html
           touch tmp/pages/.nojekyll
-          if [ "$GITHUB_REPOSITORY" == "flashbots/suave-geth" ]; then
-              echo "suave-geth.optimism.io" > tmp/pages/CNAME
-          fi;
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
