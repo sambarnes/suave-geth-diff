@@ -61,7 +61,7 @@ def:
           * Adds `BuildBlockFromTxs`and `BuildBlockFromBundles` to the `ethapi.Backend`
           interface.
           
-          * Hooks in SUAVE execution backends (`ConfiendialStoreBackend`,
+          * Hooks in SUAVE execution backends (`ConfidentialStoreBackend`,
           `MempoolBackend`, and `OffchainEthBackend`) to the full-node's interface.
 
           * Support for `OffchainTxType` and `OffchainExecutedTxType`
