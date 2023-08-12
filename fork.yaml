@@ -1,6 +1,6 @@
 title: "suave-geth"
 logo: "https://collective.flashbots.net/uploads/default/original/1X/7a99a7f355a2ab01e7eec8bb90f6cc59be63573a.png"
-footer: "created with [forkdiff](https://github.com/protolambda/forkdiff)"
+footer: "created with [forkdiff](https://github.com/protolambda/forkdiff) . . . [github](https://github.com/sambarnes/suave-geth-diff)"
 base:
   name: ethereum/go-ethereum
   url: https://github.com/ethereum/go-ethereum
