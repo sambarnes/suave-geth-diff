@@ -10,7 +10,7 @@ fork:
   url: https://github.com/flashbots/suave-geth
   ref: refs/heads/main
 def:
-    title: "suave-geth"
+    title: "⚡🤖 suave-geth"
     description: |
       an overview of the changes in [`suave-geth`](https://github.com/flashbots/suave-geth),
       a fork of [`go-ethereum`](https://github.com/ethereum/go-ethereum)
