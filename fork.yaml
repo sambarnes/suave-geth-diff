@@ -58,15 +58,25 @@ def:
 
       - title: "API"
         description: |
-          * Adds `BuildBlockFromTxs`and `BuildBlockFromBundles` to the `ethapi.Backend`
-          interface.
-          
-          * Hooks in SUAVE execution backends (`ConfidentialStoreBackend`,
+          Adds `BuildBlockFromTxs`and `BuildBlockFromBundles` to the `ethapi.Backend`
+          interface. Hooks in SUAVE execution backends (`ConfidentialStoreBackend`,
           `MempoolBackend`, and `OffchainEthBackend`) to the full-node's interface.
 
-          * Support for `OffchainTxType` and `OffchainExecutedTxType`
+          Changes to RPC methods:
 
-          * New fields on `TransactionArgs` to support offchain tx types
+          1. New `IsOffchain` and `ExecutionNode` fields are added to TransactionArgs, used in
+          `eth_sendTransaction` and `eth_call` methods.
+
+            * If `IsOffchain` is set to true, the call will be performed as an off-chain call,
+            using the `ExecutionNode` passed in for constructing `OffchainTx`. While
+            `OffchainExecutedTx` is the result of `eth_sendTransaction`!
+
+          2. New optional argument - `confidential_data` added to `eth_sendRawTransaction`,
+          `eth_sendTransaction` and `eth_call` methods
+
+            * The confidential data is made available to the EVM in the confidential mode
+            via a precompile, but does not become a part of the transaction that makes it
+            to chain. This allows performing computation based on confidential data (like simulating a bundle, putting the data into confidential store).
         globs:
           - "eth/api_backend.go"
           - "eth/backend.go"
