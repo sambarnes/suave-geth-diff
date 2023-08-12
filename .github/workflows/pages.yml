@@ -16,7 +16,7 @@ jobs:
       - name: Checkout geth
         uses: actions/checkout@v3
         with:
-          repository: etheruem/go-ethereum
+          repository: ethereum/go-ethereum
           path: geth
           ref: refs/tags/v1.12.0
 
