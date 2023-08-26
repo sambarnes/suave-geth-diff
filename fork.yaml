@@ -41,6 +41,11 @@ def:
           - title: "VM modifications & precompiles"
             globs:
               - "core/vm/*"
+          
+          - title: "Other smol typing things"
+            globs:
+            - "core/types/suave_structs.go"
+            - "core/types/withdrawal.go"
 
       - title: "Node modifications"
         sub:
@@ -104,6 +109,9 @@ def:
               requested precompile.
             globs:
               - "suave/sol/**/*"
+              - "suave/artifacts/*"
+              - "suave/artifacts/**/*"
+              - "suave/foundry.toml"
           - title: "suavecli"
             description: |
               This repository contains the Command Line Interface (CLI) for interacting
@@ -115,6 +123,7 @@ def:
           - title: "Testing"
             globs:
               - "suave/e2e/*"
+              - "suave/scripts/contracts.sh"
 
 # files can be ignored globally, these will be listed in a separate grayed-out section,
 # and do not count towards the total line count.
@@ -128,3 +137,4 @@ ignore:
   - "CONTRIBUTING.md"
   - "README.md"
   - "suave/docs/*"
+  - "suave/.gitignore"
